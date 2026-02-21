@@ -247,6 +247,19 @@
     .hero-stats a:hover .stat-number { color: var(--accent); }
     .hero-stats a:hover .stat-label { color: var(--text-secondary); }
 
+    .hero-resume {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .hero-resume:hover { color: var(--accent); }
+
     /* ─── Carousel ─── */
     .carousel-header {
       display: flex;
@@ -1212,6 +1225,10 @@
           <div class="stat-label">Live Systems</div>
         </div>
       </div>
+      <a href="resume.docx" download class="hero-resume fade-up">
+        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download resume
+      </a>
     </div>
   </section>
 
