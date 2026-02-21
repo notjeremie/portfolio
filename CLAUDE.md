@@ -4,8 +4,10 @@
 
 **Name:** Portfolio
 **Purpose:** Personal developer portfolio for Jeremie Quenet
+**URL:** https://notjeremie.dev
 **Format:** Single-page static HTML (no framework, no build step)
-**Serving:** `python3 -m http.server 8090 --bind 0.0.0.0` from this folder, accessible via Tailscale
+**Repo:** github.com/notjeremie/portfolio (public)
+**Deploy:** Vercel auto-deploy from GitHub
 
 ## Tech Stack
 
@@ -15,57 +17,61 @@
 | Fonts | DM Sans, DM Serif Display, IBM Plex Mono (Google Fonts) |
 | Icons | Inline SVGs (Lucide-style) |
 | Animations | CSS transitions + IntersectionObserver scroll fade-ins |
-| Hosting | Local for now (Tailscale for remote preview) |
+| Hosting | Vercel (notjeremie.dev) |
 
 ## Design System
 
-**Style: Liquid Glass** — Matching the i24-Shifts aesthetic.
+**Style: Minimal Dark** — Inspired by ivangarcia.vercel.app. Solid dark cards, no heavy glass blur except nav/badges.
 
 | Token | Hex | Purpose |
 |-------|-----|---------|
-| primary | `#5b9cf5` | Interactive elements |
-| primary-light | `#7db4ff` | Stats, highlights |
-| accent-teal | `#5bbfb5` | Teal icons/dots |
-| accent-purple | `#9b7fea` | Purple icons/dots |
-| accent-orange | `#e8a838` | Orange icons/dots |
-| accent-green | `#5cb85c` | Status badges, green dots |
-| dark-900 | `#0d0f14` | Page background |
+| bg | `#0a0a0b` | Page background |
+| bg-card | `#141417` | Card backgrounds |
+| border | `rgba(255,255,255,0.08)` | Subtle borders |
+| text | `#e8e8ed` | Primary text |
+| text-secondary | `#8b8b96` | Secondary text |
+| text-muted | `#55555e` | Muted text |
+| accent | `#5b9cf5` | Interactive elements, links |
+| accent-teal | `#5bbfb5` | Code strings |
+| accent-purple | `#9b7fea` | Purple accents |
+| accent-orange | `#e8a838` | Code values |
+| accent-green | `#5cb85c` | Status badges |
 
-**Glass panels:** `backdrop-filter: blur(40px) saturate(180%)`, `rgba(255,255,255,0.04)` bg, subtle border + inset highlight.
+**Liquid glass** (nav, badges only): `backdrop-filter: blur(40px) saturate(180%)`
 
-**Border radii:** `28px` cards (--radius-xl), `20px` inner elements (--radius-lg), `100px` badges/buttons.
+**Border radii:** `16px` cards, `12px` inner elements, `100px` pills/badges
 
 ## Page Structure
 
-1. **Nav** — Fixed frosted glass header. Links: About, Projects, How I Work, Stack, Contact
-2. **Hero** — "I build tools that people actually use." + 4 stats (5 products, 15K+ data points, 100+ users, 2 app stores)
-3. **About Me** — 4 glass cards: Full-Stack Builder, Ship Don't Demo, AI-Augmented Workflow, Real-World Impact
-4. **Projects** — 5 project cards with tags, highlights, status badges:
-   - Miklat (Mobile App, In Review)
-   - i24 Shifts (Web App PWA, Production)
-   - Studio Countdown (Web App, Production)
-   - i24 Daily Pics (Internal Tool, Production)
-   - Israel Shelters Dataset (Data Pipeline, Complete)
-5. **How I Work** — 4-step methodology + CLAUDE.md code preview block
-6. **Tech Stack** — Grid of 12 technologies
-7. **Contact** — Email (placeholder), GitHub, LinkedIn
+1. **Nav** — Floating centered pill (liquid glass). Links: Projects, Experience, Contact + theme toggle
+2. **Hero** — Photo + name + "Builds stuff that people actually need." + 4 stats + resume download link
+   - Stats: 8 Products | 15K+ Shelters Mapped (→ miklat.app) | 2 App Stores | 24/7 Live Systems
+3. **Projects** — Horizontal carousel (7 projects) with cover card images, click to open modal
+   - Miklat, i24 Shifts, Studio Countdown, i24 Daily Pics, i24 Studio Schedule, i24 Maps, i24 MCR Extension
+   - Modal: multi-image gallery with arrows/dots, fullscreen lightbox on click, portrait detection
+4. **Section Divider** — Line + blue dot
+5. **Experience** — About paragraphs + tools card + timeline (4 roles at i24NEWS + independent dev)
+6. **Code Preview** — CLAUDE.md preview block (i24 Shifts example)
+7. **Contact** — Icon grid (LinkedIn, Instagram, GitHub, Email) + "Get in touch" card + "Download resume" card
 8. **Footer** — "Built with Claude Code, naturally."
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `index.html` | Entire portfolio site |
+| `resume.docx` | Downloadable resume |
+| `pp_jeremie_dev.png` | Profile photo |
+| `img/` | 7 cover cards + 15 screenshots |
+| `tools/screenshot-beautifier.html` | Screenshot beautifier + cover card generator tool |
+| `.gitignore` | Excludes screenshots/, node_modules/, *.docx (except resume.docx) |
 
 ## Tone & Positioning
 
-- **NOT a "prompt engineer portfolio"** — it's a developer portfolio where AI skills show through naturally
+- **NOT a "prompt engineer portfolio"** — developer portfolio where AI skills show through naturally
 - AI is mentioned as a tool/workflow detail, not the headline
 - Lead with problem-solving and real-world impact
-- Claude Code is referenced subtly (About card, How I Work section, footer)
-- Contact section is generic, not role-specific
-
-## TODO
-
-- [ ] Replace `jeremie@example.com` with real email
-- [ ] Verify GitHub URL (`notjeremie`) and LinkedIn URL (`jeremiequenet`)
-- [ ] Add project screenshots/visuals
-- [ ] Add live project URLs when ready
-- [ ] Consider deploying to a public host (Netlify, Vercel, GitHub Pages)
+- Claude Code is referenced subtly (code preview section, footer)
 
 ## Quick Commands
 
@@ -73,6 +79,6 @@
 # Serve locally
 python3 -m http.server 8090 --bind 0.0.0.0
 
-# Access via Tailscale
-# http://100.91.132.92:8090
+# Push changes
+git add <files> && git commit -m "message" && git push
 ```
