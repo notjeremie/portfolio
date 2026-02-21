@@ -244,6 +244,9 @@
       font-weight: 500;
     }
 
+    .hero-stats a:hover .stat-number { color: var(--accent); }
+    .hero-stats a:hover .stat-label { color: var(--text-secondary); }
+
     /* ─── Carousel ─── */
     .carousel-header {
       display: flex;
@@ -1196,17 +1199,17 @@
           <div class="stat-number">8</div>
           <div class="stat-label">Products</div>
         </div>
-        <div>
+        <a href="https://miklat.app" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
           <div class="stat-number">15K+</div>
-          <div class="stat-label">Data Points</div>
-        </div>
-        <div>
-          <div class="stat-number">100+</div>
-          <div class="stat-label">Users</div>
-        </div>
+          <div class="stat-label">Shelters Mapped</div>
+        </a>
         <div>
           <div class="stat-number">2</div>
           <div class="stat-label">App Stores</div>
+        </div>
+        <div>
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Live Systems</div>
         </div>
       </div>
     </div>
@@ -1439,18 +1442,32 @@
             </a>
           </div>
         </div>
-        <a href="mailto:jeremiequenet@me.com" class="contact-cta liquid-glass">
-          <div class="contact-cta-text">
-            <h3>Get in touch</h3>
-            <p>
-              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              jeremiequenet@me.com
-            </p>
-          </div>
-          <div class="contact-cta-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </div>
-        </a>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <a href="mailto:jeremiequenet@me.com" class="contact-cta liquid-glass">
+            <div class="contact-cta-text">
+              <h3>Get in touch</h3>
+              <p>
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                jeremiequenet@me.com
+              </p>
+            </div>
+            <div class="contact-cta-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+          </a>
+          <a href="resume.docx" download class="contact-cta liquid-glass">
+            <div class="contact-cta-text">
+              <h3>Download resume</h3>
+              <p>
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+                .docx
+              </p>
+            </div>
+            <div class="contact-cta-icon" style="background:rgba(155,127,234,0.1);color:var(--accent-purple);">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </section>
