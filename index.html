@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeremie Quenet — Full-Stack Developer</title>
+  <meta name="description" content="Portfolio of Jeremie Quenet — Full-stack developer who builds and ships production applications.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>J</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0b;
+      --bg-card: #141417;
+      --bg-card-hover: #1a1a1e;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.14);
+      --text: #e8e8ed;
+      --text-secondary: #8b8b96;
+      --text-muted: #55555e;
+      --accent: #5b9cf5;
+      --accent-glow: rgba(91, 156, 245, 0.15);
+      --accent-teal: #5bbfb5;
+      --accent-purple: #9b7fea;
+      --accent-orange: #e8a838;
+      --accent-green: #5cb85c;
+      --radius: 16px;
+      --radius-sm: 12px;
+      --radius-full: 100px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f5f5f7;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f0f0f3;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(0, 0, 0, 0.14);
+      --text: #1a1a2e;
+      --text-secondary: #555e70;
+      --text-muted: #8b92a5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .container-wide {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    section { padding: 60px 0; }
+
+    /* ─── Floating Pill Nav ─── */
+    /* ─── Liquid Glass ─── */
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    [data-theme="light"] .liquid-glass {
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    nav {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      border-radius: var(--radius-full);
+      padding: 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      height: 48px;
+    }
+
+    nav a {
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+    }
+
+    nav .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--text);
+      padding: 8px 12px;
+    }
+
+    .theme-toggle {
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .theme-toggle:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+    .theme-toggle svg { width: 16px; height: 16px; }
+
+    [data-theme="dark"] .icon-sun { display: none; }
+    [data-theme="light"] .icon-moon { display: none; }
+
+    /* ─── Mobile Nav ─── */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      padding: 8px;
+    }
+    .nav-hamburger svg { width: 20px; height: 20px; }
+    .nav-links-mobile { display: none; }
+
+    /* ─── Section Badge ─── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+
+    .badge svg { width: 14px; height: 14px; }
+
+    /* ─── Hero ─── */
+    .hero {
+      padding-top: 120px;
+      padding-bottom: 80px;
+      text-align: center;
+    }
+
+    .hero-intro {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .hero-photo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-intro-text {
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .hero-intro-text strong {
+      color: var(--text);
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero h1 .accent { color: var(--accent); }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+    }
+
+    .hero-stats .stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .hero-stats .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+    }
+
+    /* ─── Carousel ─── */
+    .carousel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .carousel-arrows {
+      display: flex;
+      gap: 8px;
+    }
+
+    .carousel-arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .carousel-arrow:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .carousel-arrow svg { width: 16px; height: 16px; }
+
+    .carousel-track {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+      align-items: start;
+    }
+
+    .carousel-track::-webkit-scrollbar { display: none; }
+
+    .carousel-card {
+      flex: 0 0 calc(33.333% - 11px);
+      scroll-snap-align: start;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carousel-card-image {
+      width: 100%;
+      aspect-ratio: 16/10;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      overflow: hidden;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .carousel-card:hover .carousel-card-image {
+      border-color: var(--border-hover);
+    }
+
+    .carousel-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .carousel-card .card-tech {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .carousel-card .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      border-radius: var(--radius-full);
+      padding: 4px 12px;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+
+    .carousel-card .card-link:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    /* ─── About / Experience ─── */
+    .about-text {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .tools-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      margin-top: 40px;
+      margin-bottom: 60px;
+    }
+
+    .tools-card-text { flex: 1; }
+
+    .tools-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .tools-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .tools-icons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .tool-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .tool-icon:hover {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    /* ─── Timeline ─── */
+    .timeline-entry {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 32px;
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .timeline-date {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding-top: 2px;
+    }
+
+    .timeline-content h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .timeline-content ul {
+      list-style: disc;
+      padding-left: 18px;
+      margin-bottom: 12px;
+    }
+
+    .timeline-content li {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 4px;
+    }
+
+    .timeline-tech {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .timeline-tech span {
+      color: var(--accent);
+    }
+
+    /* ─── Code Preview ─── */
+    .code-preview {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-top: 40px;
+      overflow-x: auto;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .code-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .code-filename {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-left: 6px;
+    }
+
+    .code-preview pre {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.9;
+      color: var(--text-secondary);
+      white-space: pre;
+      margin: 0;
+    }
+
+    .c-comment { color: var(--text-muted); }
+    .c-key { color: var(--accent); }
+    .c-string { color: var(--accent-teal); }
+    .c-value { color: var(--accent-orange); }
+
+    /* ─── Contact ─── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .contact-icons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .contact-icon-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .contact-icon-btn:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .contact-icon-btn svg { width: 20px; height: 20px; }
+
+    .contact-icon-btn span {
+      font-size: 0.6rem;
+      font-weight: 500;
+    }
+
+    .contact-cta {
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .contact-cta-text { flex: 1; }
+
+    .contact-cta h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .contact-cta p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-cta-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-sm);
+      background: rgba(91, 156, 245, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .contact-cta-icon svg { width: 24px; height: 24px; }
+
+    /* ─── Footer ─── */
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    footer .sub { margin-top: 4px; font-size: 0.72rem; }
+
+    /* ─── Embellished Screenshots ─── */
+    .carousel-card-image {
+      position: relative;
+      background: linear-gradient(145deg, #1a1d2e, #0e1018);
+      overflow: hidden;
+    }
+
+    .carousel-card-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(180deg, transparent 60%, rgba(10, 10, 11, 0.6) 100%);
+      pointer-events: none;
+    }
+
+    .carousel-card-image img {
+      transition: transform 0.4s ease;
+    }
+
+    .carousel-card:hover .carousel-card-image img {
+      transform: scale(1.03);
+    }
+
+    /* ─── Modal ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      max-width: 720px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      border-radius: 20px;
+      padding: 0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      /* Override liquid-glass for modal — force dark solid */
+      background: #141417 !important;
+      border: 1px solid rgba(255, 255, 255, 0.10) !important;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.04) !important;
+      color: #e8e8ed;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e8e8ed;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-close svg { width: 16px; height: 16px; }
+
+    .modal-image {
+      position: relative;
+      width: 100%;
+      min-height: 180px;
+      max-height: 45vh;
+      overflow: hidden;
+      border-radius: 20px 20px 0 0;
+      background: #0a0a0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: zoom-in;
+    }
+
+    .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #0a0a0b;
+    }
+
+    /* Portrait/vertical screenshots: taller area, scrollable */
+    .modal-image.portrait {
+      max-height: 55vh;
+      overflow-y: auto;
+      align-items: flex-start;
+    }
+
+    .modal-image.portrait img {
+      width: 60%;
+      height: auto;
+      object-fit: initial;
+      margin: 0 auto;
+    }
+
+    .modal-image.portrait::-webkit-scrollbar { width: 4px; }
+    .modal-image.portrait::-webkit-scrollbar-track { background: transparent; }
+    .modal-image.portrait::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+    .modal-body {
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+      padding: 24px 28px 28px;
+    }
+
+    .modal-body::-webkit-scrollbar { width: 5px; }
+    .modal-body::-webkit-scrollbar-track { background: transparent; }
+    .modal-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+    /* ─── Gallery Nav ─── */
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e8e8ed;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 5;
+    }
+
+    .gallery-arrow:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .gallery-arrow.prev { left: 12px; }
+    .gallery-arrow.next { right: 12px; }
+    .gallery-arrow svg { width: 16px; height: 16px; }
+
+    .gallery-arrow:disabled {
+      opacity: 0.25;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .gallery-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .gallery-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .gallery-dot.active {
+      background: #5b9cf5;
+      transform: scale(1.2);
+    }
+
+    .gallery-counter {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      z-index: 5;
+    }
+
+    /* ─── Lightbox (fullscreen image) ─── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 8px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e8e8ed;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .lightbox-close svg { width: 18px; height: 18px; }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e8e8ed;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .lightbox-nav:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .lightbox-nav.prev { left: 20px; }
+    .lightbox-nav.next { right: 20px; }
+    .lightbox-nav svg { width: 18px; height: 18px; }
+
+    .lightbox-nav:disabled { opacity: 0.2; pointer-events: none; }
+
+    .lightbox-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 500;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #e8e8ed;
+    }
+
+    .modal-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .modal-status.status-production {
+      background: rgba(92, 184, 92, 0.12);
+      color: #5cb85c;
+      border: 1px solid rgba(92, 184, 92, 0.2);
+    }
+
+    .modal-desc {
+      color: #8b8b96;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .modal-tags span {
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 500;
+      background: rgba(91, 156, 245, 0.08);
+      color: #5b9cf5;
+      border: 1px solid rgba(91, 156, 245, 0.12);
+    }
+
+    .modal-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .modal-highlights span {
+      font-size: 0.8rem;
+      color: #8b8b96;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-highlights span::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #5b9cf5;
+      flex-shrink: 0;
+    }
+
+    .modal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 22px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #0a0a0b;
+      background: #5b9cf5;
+      border: none !important;
+      transition: all 0.2s;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    .modal-link:hover {
+      background: #7db4ff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(91, 156, 245, 0.3) !important;
+    }
+
+    /* clickable cards */
+    .carousel-card[data-project] { cursor: pointer; }
+
+    /* ─── Section Divider ─── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .divider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.4;
+      flex-shrink: 0;
+    }
+
+    /* ─── Animations ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      nav {
+        top: 12px;
+        padding: 0 4px;
+        height: 44px;
+      }
+
+      nav .nav-desktop { display: none; }
+      .nav-hamburger { display: flex; }
+
+      .modal { max-width: 100%; border-radius: 16px; }
+      .modal-image { max-height: 35vh; }
+      .modal-image.portrait { max-height: 50vh; }
+      .modal-image.portrait img { width: 55%; }
+      .modal-body { padding: 16px 16px 20px; }
+      .modal-body h2 { font-size: 1.2rem; }
+      .modal-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+      .modal-highlights { flex-direction: column; gap: 6px; }
+      .modal-desc { font-size: 0.8rem; margin-bottom: 12px; }
+      .lightbox-nav { width: 36px; height: 36px; }
+      .lightbox-nav.prev { left: 10px; }
+      .lightbox-nav.next { right: 10px; }
+
+      .nav-links-mobile.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 56px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(40px) saturate(180%);
+        -webkit-backdrop-filter: blur(40px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: var(--radius);
+        padding: 12px 8px;
+        gap: 4px;
+        min-width: 180px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+
+      .nav-links-mobile.open a {
+        display: block;
+        padding: 10px 16px;
+        color: var(--text-secondary);
+        font-size: 0.88rem;
+        border-radius: var(--radius-sm);
+        transition: background 0.2s;
+      }
+
+      .nav-links-mobile.open a:hover {
+        background: rgba(255,255,255,0.06);
+      }
+
+      .hero { padding-top: 100px; padding-bottom: 60px; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero-stats { gap: 24px; flex-wrap: wrap; }
+
+      .carousel-card {
+        flex: 0 0 85%;
+      }
+
+      .timeline-entry {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .tools-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-icons {
+        justify-content: center;
+        grid-template-columns: repeat(4, 64px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        text-align: center;
+      }
+
+      .carousel-card {
+        flex: 0 0 90%;
+      }
+
+      .contact-icons {
+        grid-template-columns: repeat(2, 64px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="liquid-glass">
+    <div class="nav-desktop" style="display:flex;align-items:center;gap:0;">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+    </div>
+    <a href="#" class="nav-logo">J</a>
+    <div class="nav-desktop" style="display:flex;align-items:center;gap:0;">
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="theme-toggle liquid-glass" id="themeToggle" aria-label="Toggle theme">
+      <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <div class="nav-links-mobile" id="navMobile">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-intro fade-up">
+        <div class="hero-photo">
+          <img src="pp_jeremie_dev.png" alt="Jeremie Quenet">
+        </div>
+        <span class="hero-intro-text">My name is <strong>Jeremie Quenet</strong> and I'm a developer that</span>
+      </div>
+      <h1 class="fade-up">Builds stuff that people<br>actually <span class="accent">need.</span></h1>
+      <div class="hero-stats fade-up">
+        <div>
+          <div class="stat-number">8</div>
+          <div class="stat-label">Products</div>
+        </div>
+        <div>
+          <div class="stat-number">15K+</div>
+          <div class="stat-label">Data Points</div>
+        </div>
+        <div>
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Users</div>
+        </div>
+        <div>
+          <div class="stat-number">2</div>
+          <div class="stat-label">App Stores</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container-wide">
+      <div class="carousel-header fade-up">
+        <div class="badge liquid-glass">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Projects
+        </div>
+        <div class="carousel-arrows">
+          <button class="carousel-arrow liquid-glass" data-carousel="projects" data-dir="-1" aria-label="Previous">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <button class="carousel-arrow liquid-glass" data-carousel="projects" data-dir="1" aria-label="Next">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="carousel-track" id="carousel-projects">
+        <div class="carousel-card fade-up" data-project="miklat">
+          <div class="carousel-card-image"><img src="img/miklat-cover.png" alt="Miklat"></div>
+          <h3>Miklat</h3>
+          <div class="card-tech">React Native, Expo, Supabase, Mapbox</div>
+        </div>
+        <div class="carousel-card fade-up" data-project="i24-shifts">
+          <div class="carousel-card-image"><img src="img/i24-shifts-cover.png" alt="i24 Shifts"></div>
+          <h3>i24 Shifts</h3>
+          <div class="card-tech">React 19, TypeScript, Supabase, Tailwind</div>
+        </div>
+        <div class="carousel-card fade-up" data-project="countdown">
+          <div class="carousel-card-image"><img src="img/countdown-cover.png" alt="Studio Countdown"></div>
+          <h3>Studio Countdown</h3>
+          <div class="card-tech">Next.js 15, React 19, SSE</div>
+        </div>
+        <div class="carousel-card fade-up" data-project="i24-daily-pics">
+          <div class="carousel-card-image"><img src="img/i24-daily-pics-cover.png" alt="i24 Daily Pics"></div>
+          <h3>i24 Daily Pics</h3>
+          <div class="card-tech">React 18, Vite, Canvas API</div>
+        </div>
+        <div class="carousel-card fade-up" data-project="i24-schedule">
+          <div class="carousel-card-image"><img src="img/i24-schedule-cover.png" alt="i24 Studio Schedule"></div>
+          <h3>i24 Studio Schedule</h3>
+          <div class="card-tech">React, Supabase, Netlify</div>
+        </div>
+        <div class="carousel-card fade-up" data-project="i24-maps">
+          <div class="carousel-card-image"><img src="img/i24-maps-cover.png" alt="i24 Maps"></div>
+          <h3>i24 Maps</h3>
+          <div class="card-tech">React, Leaflet, Netlify</div>
+        </div>
+        <div class="carousel-card fade-up" data-project="i24-mcr">
+          <div class="carousel-card-image"><img src="img/i24-mcr-cover.png" alt="i24 MCR Extension"></div>
+          <h3>i24 MCR Extension</h3>
+          <div class="card-tech">React, REST APIs, Netlify</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="container">
+      <div class="badge fade-up">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Experience
+      </div>
+
+      <div class="about-text fade-up">
+        Technical Operations Manager with 9+ years in broadcast media at i24NEWS. I started as a CG Operator, worked my way up to Director and Technical Manager, and along the way discovered that the most impactful thing I could do was build the tools my team actually needed.
+      </div>
+      <div class="about-text fade-up">
+        I specialize in bridging the gap between editorial requirements and technical execution — designing internal platforms, automating manual workflows, and building production apps that serve real users daily. From shift management systems to shelter finder apps on the App Store.
+      </div>
+      <div class="about-text fade-up">
+        I work across the full stack: React and React Native frontends, Supabase/PostgreSQL backends, Python data pipelines, and broadcast system integrations (VizRT, ATEM, Sony switchers). I use Claude Code as a force multiplier with structured CLAUDE.md context files.
+      </div>
+      <div class="about-text fade-up" style="color: var(--text-muted); font-size: 0.88rem;">
+        French (Native) · English (Fluent) · Hebrew (Fluent)
+      </div>
+
+      <div class="tools-card fade-up">
+        <div class="tools-card-text">
+          <h3>I can work with a wide range of tools from frontend to broadcast systems</h3>
+          <p>React, React Native, TypeScript, Next.js, Supabase, Node.js, Python, Tailwind CSS, Mapbox, Playwright, VizRT Suite, Blackmagic ATEM, Sony XVS-G1, Dalet Galaxy, and more.</p>
+        </div>
+        <div class="tools-icons">
+          <div class="tool-icon" title="React">Re</div>
+          <div class="tool-icon" title="TypeScript">TS</div>
+          <div class="tool-icon" title="Next.js">Nx</div>
+          <div class="tool-icon" title="Supabase">Sb</div>
+          <div class="tool-icon" title="Python">Py</div>
+          <div class="tool-icon" title="Node.js">No</div>
+          <div class="tool-icon" title="VizRT">Vz</div>
+          <div class="tool-icon" title="ATEM">AT</div>
+          <div class="tool-icon" title="Dalet">Da</div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-entry fade-up">
+        <div class="timeline-date">2024 – Present</div>
+        <div class="timeline-content">
+          <h3>Independent Developer — Miklat</h3>
+          <ul>
+            <li>Built a mobile-first shelter finder app with 15,266 mapped locations across Israel, live on both App Store and Google Play</li>
+            <li>Engineered a Python data pipeline that extracted shelter data from GovMap via 6,500+ API queries across 14+ municipal layers</li>
+            <li>Implemented 5-language support with full RTL, Google + Apple OAuth, and community shelter verification</li>
+          </ul>
+          <div class="timeline-tech"><span>Technologies:</span> React Native, Expo, Supabase, Mapbox, PostGIS, Python, GeoJSON</div>
+        </div>
+      </div>
+
+      <div class="timeline-entry fade-up">
+        <div class="timeline-date">2021 – Present</div>
+        <div class="timeline-content">
+          <h3>Technical Manager & Control Room Lead @ i24NEWS</h3>
+          <ul>
+            <li>Pivoted from operational management to technical architecture, serving as the primary developer for internal operational tools</li>
+            <li>Built i24 Shifts — a bilingual shift management platform for 100+ control room employees with role-based access, shift auctions, and vacation management</li>
+            <li>Developed Studio Countdown — a real-time broadcast timer with multi-display sync and Stream Deck integration</li>
+            <li>Created i24 Daily Pics — an internal branded image generator with multi-layer compositing</li>
+            <li>Built i24 Studio Schedule Display — a real-time studio schedule system for control room monitors</li>
+            <li>Led Hebrew channel launch system integration, programmed ATEM/Sony switcher macros, and architected centralized data management</li>
+          </ul>
+          <div class="timeline-tech"><span>Technologies:</span> React 19, TypeScript, Supabase, Tailwind CSS, Next.js 15, SSE, Playwright, PWA, VizRT, ATEM</div>
+        </div>
+      </div>
+
+      <div class="timeline-entry fade-up">
+        <div class="timeline-date">2019 – 2021</div>
+        <div class="timeline-content">
+          <h3>Director @ i24NEWS</h3>
+          <ul>
+            <li>Executed live technical direction for high-pressure news broadcasts</li>
+            <li>Optimized Vision Mixer workflow</li>
+          </ul>
+          <div class="timeline-tech"><span>Technologies:</span> Sony XVS-G1, Dalet Galaxy, VizRT Suite</div>
+        </div>
+      </div>
+
+      <div class="timeline-entry fade-up">
+        <div class="timeline-date">2019 – 2021</div>
+        <div class="timeline-content">
+          <h3>Assistant Director @ i24NEWS</h3>
+          <ul>
+            <li>Managed live rundown timing and coordination</li>
+            <li>Optimized Dalet Galaxy rundown workflow</li>
+          </ul>
+          <div class="timeline-tech"><span>Technologies:</span> Dalet Galaxy, VizRT Suite</div>
+        </div>
+      </div>
+
+      <div class="timeline-entry fade-up">
+        <div class="timeline-date">2017 – 2019</div>
+        <div class="timeline-content">
+          <h3>CG Operator @ i24NEWS</h3>
+          <ul>
+            <li>Operated Viz Trio and Viz Director for live on-air graphics</li>
+            <li>Managed real-time graphics workflow during breaking news coverage</li>
+          </ul>
+          <div class="timeline-tech"><span>Technologies:</span> Viz Trio, Viz Director, Dalet Galaxy</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- How I Work (code preview) -->
+  <section>
+    <div class="container">
+      <div class="code-preview fade-up">
+        <div class="code-header">
+          <span class="code-dot" style="background:#ff5f57"></span>
+          <span class="code-dot" style="background:#febc2e"></span>
+          <span class="code-dot" style="background:#28c840"></span>
+          <span class="code-filename">CLAUDE.md</span>
+        </div>
+        <pre><span class="c-comment"># Every project starts with structured context</span>
+
+<span class="c-key">Project:</span> <span class="c-string">i24 Shifts</span>
+<span class="c-key">Stack:</span>   <span class="c-string">React 19, Supabase, Tailwind, Playwright</span>
+<span class="c-key">Users:</span>  <span class="c-value">100+ employees across 3 departments</span>
+
+<span class="c-comment"># Design tokens, API contracts, business rules</span>
+<span class="c-comment"># All defined upfront so AI stays consistent</span>
+<span class="c-comment"># across 200+ components and 76 E2E tests</span>
+
+<span class="c-key">Design:</span> <span class="c-string">Liquid Glass — blur(40px) saturate(180%)</span>
+<span class="c-key">i18n:</span>   <span class="c-string">Hebrew + English, RTL-first layout</span>
+<span class="c-key">Auth:</span>   <span class="c-string">Row-level security, role-based access</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-grid fade-up">
+        <div>
+          <div class="badge liquid-glass" style="margin-bottom:20px;">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Contact
+          </div>
+          <div class="contact-icons">
+            <a href="https://linkedin.com/in/jeremiequenet" target="_blank" rel="noopener" class="contact-icon-btn liquid-glass">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://instagram.com/notjeremie" target="_blank" rel="noopener" class="contact-icon-btn liquid-glass">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              <span>Instagram</span>
+            </a>
+            <a href="https://github.com/notjeremie" target="_blank" rel="noopener" class="contact-icon-btn liquid-glass">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              <span>GitHub</span>
+            </a>
+            <a href="mailto:jeremiequenet@me.com" class="contact-icon-btn liquid-glass">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Email</span>
+            </a>
+          </div>
+        </div>
+        <a href="mailto:jeremiequenet@me.com" class="contact-cta liquid-glass">
+          <div class="contact-cta-text">
+            <h3>Get in touch</h3>
+            <p>
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              jeremiequenet@me.com
+            </p>
+          </div>
+          <div class="contact-cta-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Modal -->
+  <div class="modal-overlay" id="projectModal">
+    <div class="modal liquid-glass">
+      <button class="modal-close" id="modalClose" aria-label="Close">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-image" id="modalImage">
+        <img id="galleryImg" src="" alt="">
+        <span class="gallery-counter" id="galleryCounter"></span>
+        <button class="gallery-arrow prev" id="galleryPrev" aria-label="Previous image">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button class="gallery-arrow next" id="galleryNext" aria-label="Next image">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <div class="gallery-dots" id="galleryDots"></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-header">
+          <h2 id="modalTitle"></h2>
+          <div class="modal-status" id="modalStatus"></div>
+        </div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-tags" id="modalTags"></div>
+        <div class="modal-highlights" id="modalHighlights"></div>
+        <a href="#" target="_blank" rel="noopener" class="modal-link liquid-glass" id="modalLink" style="display:none;">
+          Visit project <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox (fullscreen image viewer) -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav next" id="lightboxNext" aria-label="Next">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Jeremie Quenet. Built with <a href="https://claude.ai" target="_blank" rel="noopener">Claude Code</a>, naturally.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved) html.setAttribute('data-theme', saved);
+    else if (window.matchMedia('(prefers-color-scheme: light)').matches) html.setAttribute('data-theme', 'light');
+
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // Mobile nav
+    const hamburger = document.getElementById('navHamburger');
+    const navMobile = document.getElementById('navMobile');
+    hamburger.addEventListener('click', () => navMobile.classList.toggle('open'));
+    navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMobile.classList.remove('open')));
+
+    // Carousel arrows
+    document.querySelectorAll('.carousel-arrow').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.carousel;
+        const dir = parseInt(btn.dataset.dir);
+        const track = document.getElementById('carousel-' + id);
+        const card = track.querySelector('.carousel-card');
+        const scrollAmount = card.offsetWidth + 20; // card width + gap
+        track.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' });
+      });
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Project modal data
+    const projects = {
+      'miklat': {
+        title: 'Miklat',
+        status: 'Production',
+        desc: 'A mobile-first app that helps Israeli residents find the nearest bomb shelter during emergencies. Features a full-screen Mapbox map with 15,000+ shelter locations, real-time GPS navigation, community verification system, and support for 5 languages with RTL.',
+        tags: ['React Native', 'Expo', 'Supabase', 'Mapbox', 'PostGIS', 'Python'],
+        highlights: ['15,266 shelters mapped', '5 languages + RTL', 'Google + Apple Sign-In', 'Live on App Store & Google Play'],
+        imgs: ['img/miklat-1.png', 'img/miklat-2.png', 'img/miklat-3.png', 'img/miklat-4.png'],
+        link: 'https://miklat.app'
+      },
+      'i24-shifts': {
+        title: 'i24 Shifts',
+        status: 'Production',
+        desc: 'A bilingual (Hebrew/English) shift scheduling and exchange platform for i24NEWS TV control room teams. Supports 100+ employees with role-based access, shift auctions, vacation management, cost analytics, and a custom Liquid Glass design system. Full PWA with push notifications.',
+        tags: ['React 19', 'TypeScript', 'Supabase', 'Tailwind CSS', 'PWA', 'Playwright'],
+        highlights: ['100+ active users', 'Hebrew + English RTL', '76 E2E tests', 'Liquid Glass design system'],
+        imgs: ['img/i24-shifts-1.png', 'img/i24-shifts-2.png']
+      },
+      'countdown': {
+        title: 'Studio Countdown',
+        status: 'Production',
+        desc: 'A professional broadcast countdown timer for TV studios with real-time synchronization across multiple displays. Supports Stream Deck and Bitfocus Companion integration, room-based multi-timer management, and standalone offline mode for OBS.',
+        tags: ['Next.js 15', 'React 19', 'SSE', 'Stream Deck API'],
+        highlights: ['Real-time multi-display sync', 'Stream Deck integration', 'HTTP API for automation'],
+        imgs: ['img/countdown-1.png', 'img/countdown-2.png']
+      },
+      'i24-daily-pics': {
+        title: 'i24 Daily Pics',
+        status: 'Production',
+        desc: 'An internal image generation tool for i24NEWS that composites multiple layers into branded images. Features a step-by-step wizard, live canvas preview, font management, and asset library for rapid content creation.',
+        tags: ['React 18', 'Vite', 'Canvas API', 'Radix UI'],
+        highlights: ['Multi-layer compositing', 'Wizard-based workflow', 'Asset management system'],
+        imgs: ['img/i24-daily-pics-1.png', 'img/i24-daily-pics-2.png']
+      },
+      'i24-schedule': {
+        title: 'i24 Studio Schedule',
+        status: 'Production',
+        desc: 'A studio schedule display system for i24NEWS showing real-time studio assignments, show timings, and crew allocation. Supports multiple studio views, Hebrew interface, and live updates for control room monitors.',
+        tags: ['React', 'Supabase', 'Netlify'],
+        highlights: ['Real-time schedule updates', 'Multi-studio support', 'Hebrew RTL interface'],
+        imgs: ['img/i24-schedule-1.png', 'img/i24-schedule-2.png', 'img/i24-schedule-3.png']
+      },
+      'i24-maps': {
+        title: 'i24 Maps',
+        status: 'Production',
+        desc: 'A TV-optimized interactive map tool for i24NEWS broadcasts. Displays live event locations, correspondent positions, and geographic context for on-air use with clean, broadcast-ready styling.',
+        tags: ['React', 'Leaflet', 'Netlify'],
+        highlights: ['Broadcast-ready map styling', 'Real-time event locations', 'Hebrew interface'],
+        imgs: ['img/i24-maps-1.png']
+      },
+      'i24-mcr': {
+        title: 'i24 MCR Extension',
+        status: 'Production',
+        desc: 'A master control room extension dashboard for i24NEWS showing external source status, live feed routing, and transmission monitoring. Used by MCR operators to track all incoming and outgoing feeds during broadcast.',
+        tags: ['React', 'REST APIs', 'Netlify'],
+        highlights: ['Live feed monitoring', 'External source tracking', 'Real-time status updates'],
+        imgs: ['img/i24-mcr-1.png']
+      }
+    };
+
+    // Modal & Gallery logic
+    const modal = document.getElementById('projectModal');
+    const modalClose = document.getElementById('modalClose');
+    const galleryImg = document.getElementById('galleryImg');
+    const galleryPrev = document.getElementById('galleryPrev');
+    const galleryNext = document.getElementById('galleryNext');
+    const galleryDots = document.getElementById('galleryDots');
+    const galleryCounter = document.getElementById('galleryCounter');
+
+    let currentImgs = [];
+    let currentIdx = 0;
+
+    const modalImageEl = document.getElementById('modalImage');
+
+    function detectPortrait(src) {
+      const img = new Image();
+      img.onload = () => {
+        if (img.naturalHeight > img.naturalWidth * 1.2) {
+          modalImageEl.classList.add('portrait');
+          modalImageEl.scrollTop = 0;
+        } else {
+          modalImageEl.classList.remove('portrait');
+        }
+      };
+      img.src = src;
+    }
+
+    function updateGallery() {
+      galleryImg.src = currentImgs[currentIdx];
+      detectPortrait(currentImgs[currentIdx]);
+      galleryCounter.textContent = currentImgs.length > 1 ? (currentIdx + 1) + ' / ' + currentImgs.length : '';
+      galleryCounter.style.display = currentImgs.length > 1 ? '' : 'none';
+      galleryPrev.style.display = currentImgs.length > 1 ? '' : 'none';
+      galleryNext.style.display = currentImgs.length > 1 ? '' : 'none';
+      galleryDots.style.display = currentImgs.length > 1 ? '' : 'none';
+      galleryPrev.disabled = currentIdx === 0;
+      galleryNext.disabled = currentIdx === currentImgs.length - 1;
+      galleryDots.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIdx);
+      });
+    }
+
+    galleryPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentIdx > 0) { currentIdx--; updateGallery(); }
+    });
+
+    galleryNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentIdx < currentImgs.length - 1) { currentIdx++; updateGallery(); }
+    });
+
+    document.querySelectorAll('.carousel-card[data-project]').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.card-link')) return;
+        const key = card.dataset.project;
+        const p = projects[key];
+        if (!p) return;
+
+        // Gallery setup
+        currentImgs = p.imgs;
+        currentIdx = 0;
+        galleryImg.alt = p.title;
+        galleryDots.innerHTML = currentImgs.length > 1
+          ? currentImgs.map((_, i) => '<button class="gallery-dot' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '"></button>').join('')
+          : '';
+        galleryDots.querySelectorAll('.gallery-dot').forEach(dot => {
+          dot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIdx = parseInt(dot.dataset.idx);
+            updateGallery();
+          });
+        });
+        updateGallery();
+
+        document.getElementById('modalTitle').textContent = p.title;
+        document.getElementById('modalStatus').textContent = p.status;
+        document.getElementById('modalStatus').className = 'modal-status status-production';
+        document.getElementById('modalDesc').textContent = p.desc;
+        document.getElementById('modalTags').innerHTML = p.tags.map(t => '<span>' + t + '</span>').join('');
+        document.getElementById('modalHighlights').innerHTML = p.highlights.map(h => '<span>' + h + '</span>').join('');
+
+        const link = document.getElementById('modalLink');
+        if (p.link) {
+          link.href = p.link;
+          link.style.display = 'inline-flex';
+        } else {
+          link.style.display = 'none';
+        }
+
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    function closeModal() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Lightbox (fullscreen image viewer)
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const lightboxClose = document.getElementById('lightboxClose');
+    let lbOpen = false;
+
+    function updateLightbox() {
+      lightboxImg.src = currentImgs[currentIdx];
+      lightboxCounter.textContent = currentImgs.length > 1 ? (currentIdx + 1) + ' / ' + currentImgs.length : '';
+      lightboxPrev.style.display = currentImgs.length > 1 ? '' : 'none';
+      lightboxNext.style.display = currentImgs.length > 1 ? '' : 'none';
+      lightboxPrev.disabled = currentIdx === 0;
+      lightboxNext.disabled = currentIdx === currentImgs.length - 1;
+      // sync modal gallery too
+      updateGallery();
+    }
+
+    function openLightbox() {
+      lightbox.classList.add('open');
+      lbOpen = true;
+      updateLightbox();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lbOpen = false;
+    }
+
+    // Click the modal image area to open lightbox
+    document.getElementById('modalImage').addEventListener('click', (e) => {
+      if (e.target.closest('.gallery-arrow') || e.target.closest('.gallery-dot')) return;
+      openLightbox();
+    });
+
+    lightboxClose.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    lightboxPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentIdx > 0) { currentIdx--; updateLightbox(); }
+    });
+
+    lightboxNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentIdx < currentImgs.length - 1) { currentIdx++; updateLightbox(); }
+    });
+
+    // Keyboard: arrows + escape for modal & lightbox
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (lbOpen) { closeLightbox(); return; }
+        closeModal();
+      }
+      if (lbOpen || modal.classList.contains('open')) {
+        if (e.key === 'ArrowLeft' && currentIdx > 0) {
+          currentIdx--;
+          lbOpen ? updateLightbox() : updateGallery();
+        }
+        if (e.key === 'ArrowRight' && currentIdx < currentImgs.length - 1) {
+          currentIdx++;
+          lbOpen ? updateLightbox() : updateGallery();
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

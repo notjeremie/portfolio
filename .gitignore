@@ -1,0 +1,8 @@
+.DS_Store
+screenshots/
+node_modules/
+package.json
+package-lock.json
+*.docx
+take-screenshot*.mjs
+screenshot-*.png
