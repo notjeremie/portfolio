@@ -1233,7 +1233,7 @@
   </section>
 
   <!-- Projects -->
-  <section id="projects">
+  <section id="projects" style="padding-top:20px;">
     <div class="container-wide">
       <div class="carousel-header fade-up">
         <div class="badge liquid-glass">
@@ -1586,8 +1586,8 @@
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
+    // Smooth scroll (exclude modal link which changes href dynamically)
+    document.querySelectorAll('a[href^="#"]:not(#modalLink)').forEach(link => {
       link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
         if (href === '#') return;
