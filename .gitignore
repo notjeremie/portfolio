@@ -1,9 +1,15 @@
 .DS_Store
-screenshots/
 node_modules/
-package.json
-package-lock.json
+
+# Portfolio
+portfolio/screenshots/
+portfolio/package.json
+portfolio/package-lock.json
+portfolio/take-screenshot*.mjs
+portfolio/screenshot-*.png
 *.docx
-!resume.docx
-take-screenshot*.mjs
-screenshot-*.png
+!portfolio/resume.docx
+
+# Drafts (keep local until ready)
+linkedin/drafts/
+instagram/drafts/

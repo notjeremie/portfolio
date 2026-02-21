@@ -1,25 +1,56 @@
-# CLAUDE.md — Portfolio
+# CLAUDE.md — notjeremie (Central Hub)
 
-## Project Overview
+## What This Repo Is
 
-**Name:** Portfolio
-**Purpose:** Personal developer portfolio for Jeremie Quenet
+This is Jeremie Quenet's **central command** — the base from which everything related to his online presence and personal brand is managed:
+
+- **Portfolio website** (notjeremie.dev)
+- **LinkedIn** content, posts, strategy
+- **Instagram** content, posts, strategy
+- **GitHub** profile and project presentation
+- **Apps** he builds (Miklat, i24 tools, etc.) — their public-facing presence
+- **Any other social media or professional channel**
+
+When working from this folder, tasks may involve writing social media posts, drafting LinkedIn articles, preparing Instagram content, updating the portfolio site, managing cross-platform presence, or anything related to Jeremie's personal brand and online activity.
+
+## Folder Structure
+
+```
+notjeremie/
+├── CLAUDE.md              # This file — central hub instructions
+├── portfolio/             # notjeremie.dev website (Vercel auto-deploy)
+│   ├── index.html         # Entire portfolio site
+│   ├── img/               # Cover cards + screenshots
+│   ├── resume.docx        # Downloadable resume
+│   └── pp_jeremie_dev.png # Profile photo
+├── linkedin/              # LinkedIn content
+│   └── drafts/            # Post drafts, articles
+├── instagram/             # Instagram content
+│   └── drafts/            # Post drafts, captions, visuals
+├── content/               # Cross-platform content & ideas
+├── tools-hub/             # Shared tools (screenshot beautifier, etc.)
+└── .gitignore
+```
+
+## Portfolio Site
+
 **URL:** https://notjeremie.dev
+**Location:** `portfolio/`
 **Format:** Single-page static HTML (no framework, no build step)
 **Repo:** github.com/notjeremie/portfolio (public)
 **Deploy:** Vercel auto-deploy from GitHub
 
-## Tech Stack
+### Tech Stack
 
 | Category | Technology |
 |----------|------------|
-| Structure | Single HTML file (`index.html`) |
+| Structure | Single HTML file (`portfolio/index.html`) |
 | Fonts | DM Sans, DM Serif Display, IBM Plex Mono (Google Fonts) |
 | Icons | Inline SVGs (Lucide-style) |
 | Animations | CSS transitions + IntersectionObserver scroll fade-ins |
 | Hosting | Vercel (notjeremie.dev) |
 
-## Design System
+### Design System
 
 **Style: Minimal Dark** — Inspired by ivangarcia.vercel.app. Solid dark cards, no heavy glass blur except nav/badges.
 
@@ -41,7 +72,7 @@
 
 **Border radii:** `16px` cards, `12px` inner elements, `100px` pills/badges
 
-## Page Structure
+### Page Structure
 
 1. **Nav** — Floating centered pill (liquid glass). Links: Projects, Experience, Contact + theme toggle
 2. **Hero** — Photo + name + "Builds stuff that people actually need." + 4 stats + resume download link
@@ -55,29 +86,18 @@
 7. **Contact** — Icon grid (LinkedIn, Instagram, GitHub, Email) + "Get in touch" card + "Download resume" card
 8. **Footer** — "Built with Claude Code, naturally."
 
-## Key Files
-
-| File | Purpose |
-|------|---------|
-| `index.html` | Entire portfolio site |
-| `resume.docx` | Downloadable resume |
-| `pp_jeremie_dev.png` | Profile photo |
-| `img/` | 7 cover cards + 15 screenshots |
-| `tools/screenshot-beautifier.html` | Screenshot beautifier + cover card generator tool |
-| `.gitignore` | Excludes screenshots/, node_modules/, *.docx (except resume.docx) |
-
 ## Tone & Positioning
 
 - **NOT a "prompt engineer portfolio"** — developer portfolio where AI skills show through naturally
 - AI is mentioned as a tool/workflow detail, not the headline
 - Lead with problem-solving and real-world impact
-- Claude Code is referenced subtly (code preview section, footer)
+- Casual, behind-the-scenes tone across all channels
 
 ## Quick Commands
 
 ```bash
-# Serve locally
-python3 -m http.server 8090 --bind 0.0.0.0
+# Serve portfolio locally
+python3 -m http.server 8090 --bind 0.0.0.0 --directory portfolio
 
 # Push changes
 git add <files> && git commit -m "message" && git push
