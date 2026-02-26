@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #111;
+      color: #e0e0e0;
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width: 420px;
+      min-width: 420px;
+      background: #1a1a1a;
+      border-right: 1px solid #2a2a2a;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .sidebar-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header h1 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .sidebar-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .profile-bar {
+      padding: 12px 20px;
+      border-bottom: 1px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .profile-bar select {
+      flex: 1;
+      background: #222;
+      color: #e0e0e0;
+      border: 1px solid #333;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .editor {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .editor::-webkit-scrollbar { width: 6px; }
+    .editor::-webkit-scrollbar-track { background: transparent; }
+    .editor::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+    /* ─── FORM ELEMENTS ─── */
+    .field { margin-bottom: 14px; }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .field input, .field textarea {
+      width: 100%;
+      background: #222;
+      color: #e0e0e0;
+      border: 1px solid #333;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .field input:focus, .field textarea:focus {
+      outline: none;
+      border-color: #2B5797;
+    }
+
+    .field textarea { min-height: 60px; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #2B5797;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .skill-row, .exp-bullet-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+      align-items: flex-start;
+    }
+
+    .skill-row input:first-child { width: 140px; min-width: 140px; }
+    .skill-row input:last-of-type { flex: 1; }
+
+    .exp-card {
+      background: #1f1f1f;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .exp-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .exp-card-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .exp-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .exp-card-grid input {
+      background: #222;
+      color: #e0e0e0;
+      border: 1px solid #333;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: inherit;
+    }
+
+    .exp-card-grid input:focus { outline: none; border-color: #2B5797; }
+
+    .exp-bullet-row textarea {
+      flex: 1;
+      background: #222;
+      color: #e0e0e0;
+      border: 1px solid #333;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 32px;
+    }
+
+    .exp-bullet-row textarea:focus { outline: none; border-color: #2B5797; }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.85; }
+
+    .btn-primary { background: #2B5797; color: white; }
+    .btn-ghost { background: #333; color: #ccc; }
+    .btn-danger { background: #8b2020; color: white; }
+    .btn-sm { padding: 3px 8px; font-size: 11px; }
+    .btn-add { background: #1a3a1a; color: #5cb85c; }
+
+    /* ─── PREVIEW AREA ─── */
+    .preview-area {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+      padding: 32px;
+      background: #0e0e0e;
+    }
+
+    .preview-area::-webkit-scrollbar { width: 8px; }
+    .preview-area::-webkit-scrollbar-track { background: transparent; }
+    .preview-area::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+    /* ─── RESUME PAGE ─── */
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      height: fit-content;
+      background: white;
+      color: #000;
+      font-family: Arial, sans-serif;
+      padding: 0.4in 0.54in;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .resume-name { text-align: center; font-size: 18pt; font-weight: bold; margin-bottom: 4px; }
+    .resume-title { text-align: center; font-size: 11pt; color: #2B5797; margin-bottom: 8px; }
+    .resume-title:empty { display: none; }
+    .contact-line { text-align: center; font-size: 9pt; color: #555; margin-bottom: 3px; }
+    .contact-line a { color: #2B5797; text-decoration: none; }
+    .sep { color: #999; margin: 0 8px; }
+    .section-heading { font-size: 11pt; font-weight: bold; color: #2B5797; text-transform: uppercase; border-bottom: 1px solid #2B5797; padding-bottom: 3px; margin-top: 12px; margin-bottom: 6px; }
+    .summary { font-size: 10pt; line-height: 1.45; margin-bottom: 2px; }
+    .skill-line { font-size: 10pt; margin-bottom: 2px; line-height: 1.4; }
+    .skill-label-r { font-weight: bold; }
+    .skill-value-r { color: #555; }
+    .job-header-r { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; margin-bottom: 4px; font-size: 10pt; }
+    .job-header-r .left { display: flex; }
+    .job-company-r { font-weight: bold; }
+    .job-location-r { color: #555; }
+    .job-title-r { font-weight: bold; }
+    .job-dates-r { color: #555; font-size: 9pt; white-space: nowrap; }
+    .bullet-list { list-style: none; padding-left: 16px; margin: 0; }
+    .bullet-list li { font-size: 10pt; line-height: 1.4; margin-bottom: 2px; position: relative; padding-left: 10px; }
+    .bullet-list li::before { content: "\2022"; position: absolute; left: 0; }
+    .military { font-size: 10pt; margin-top: 4px; }
+    .military-name { font-weight: bold; }
+    .military-detail { color: #555; }
+
+    /* ─── MODAL ─── */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-bg.active { display: flex; }
+
+    .modal {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 24px;
+      width: 400px;
+      max-width: 90vw;
+    }
+
+    .modal h3 { margin-bottom: 16px; font-size: 16px; }
+    .modal .field { margin-bottom: 12px; }
+    .modal .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+    /* ─── EXPORT MODAL ─── */
+    .export-code {
+      background: #111;
+      color: #aaffaa;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      white-space: pre-wrap;
+      max-height: 400px;
+      overflow-y: auto;
+      width: 100%;
+    }
+
+    /* ─── PRINT ─── */
+    @media print {
+      body { background: white; }
+      .sidebar, .modal-bg { display: none !important; }
+      .preview-area { padding: 0; overflow: visible; }
+      .page { width: 100%; min-height: auto; padding: 0; box-shadow: none; border-radius: 0; }
+      @page { size: letter; margin: 0.4in 0.54in; }
+    }
+
+    /* ─── OVERRIDE INDICATOR ─── */
+    .override-badge {
+      display: inline-block;
+      background: #2B5797;
+      color: white;
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 6px;
+      font-weight: 600;
+      vertical-align: middle;
+    }
+
+    .field-override input, .field-override textarea {
+      border-color: #2B5797 !important;
+      background: #1a2030 !important;
+    }
+
+    .clear-override {
+      font-size: 10px;
+      color: #888;
+      cursor: pointer;
+      margin-left: 6px;
+    }
+
+    .clear-override:hover { color: #e0e0e0; }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>Resume Builder</h1>
+      <div class="sidebar-actions">
+        <button class="btn btn-primary" onclick="window.print()">Print PDF</button>
+        <button class="btn btn-ghost" onclick="showExport()">Export .mjs</button>
+      </div>
+    </div>
+
+    <div class="profile-bar">
+      <select id="profileSelect" onchange="switchProfile(this.value)">
+        <option value="base">Base Resume</option>
+      </select>
+      <button class="btn btn-add btn-sm" onclick="showNewProfileModal()">+ New</button>
+      <button class="btn btn-danger btn-sm" id="deleteProfileBtn" style="display:none" onclick="deleteProfile()">Delete</button>
+    </div>
+
+    <div class="editor" id="editor"></div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-area">
+    <div class="page" id="resume"></div>
+  </div>
+
+  <!-- NEW PROFILE MODAL -->
+  <div class="modal-bg" id="newProfileModal">
+    <div class="modal">
+      <h3>New Profile</h3>
+      <div class="field">
+        <div class="field-label">Profile Name</div>
+        <input type="text" id="newProfileName" placeholder="e.g. fullpath">
+      </div>
+      <div class="field">
+        <div class="field-label">Display Label</div>
+        <input type="text" id="newProfileLabel" placeholder="e.g. Fullpath (Prompt Engineer)">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('newProfileModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="createProfile()">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPORT MODAL -->
+  <div class="modal-bg" id="exportModal">
+    <div class="modal" style="width:600px">
+      <h3>Export Profile as .mjs</h3>
+      <div class="export-code" id="exportCode"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('exportModal')">Close</button>
+        <button class="btn btn-primary" onclick="copyExport()">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ─── BASE DATA ───────────────────────────────────────────────
+    const BASE = {
+      name: "JEREMIE QUENET",
+      title: "",
+      contact: {
+        phone: "052-8908857",
+        email: "jeremiequenet@me.com",
+        location: "Tel-Aviv, Israel",
+        website: { text: "notjeremie.dev", link: "https://notjeremie.dev" },
+        linkedin: { text: "LinkedIn", link: "https://www.linkedin.com/in/notjeremie/" },
+        github: { text: "GitHub", link: "https://github.com/notjeremie" },
+      },
+      summary: "Self-taught developer with 9+ years in broadcast media at i24NEWS. Went from Google Sheets automation to shipping 8 production applications \u2014 including a mobile app on both App Stores. Builds everything using AI-assisted workflows with Claude Code, structured context files, and prompt chaining. Strong product sense from years of operational management. Native-level English and French, fluent Hebrew.",
+      skills: [
+        { label: "AI & Prompt Engineering", value: "Claude Code (structured CLAUDE.md context files, prompt chaining, iterative development), LLM-assisted development workflows, RAG patterns, few-shot prompting, AI agent design" },
+        { label: "Workflow Automation", value: "AI-driven development pipelines, structured context management across 200+ components, automated data extraction pipelines, CI/CD workflows" },
+        { label: "Frontend", value: "React 19, React Native, TypeScript, Next.js 15, Tailwind CSS, HTML/CSS" },
+        { label: "Backend & Data", value: "Supabase (PostgreSQL, PostGIS, Auth, RLS), Node.js, REST APIs, Python" },
+        { label: "Mobile", value: "Expo (EAS builds), iOS & Android deployment, PWA" },
+        { label: "Broadcast", value: "VizRT Suite, Blackmagic ATEM, Sony XVS-G1, Dalet Galaxy" },
+        { label: "Languages", value: "French (Native), English (Fluent), Hebrew (Fluent)" },
+      ],
+      experience: [
+        { company: "Independent Developer", location: "Tel-Aviv", title: "Miklat", dates: "2024 \u2013 Present", bullets: [
+          "Built and shipped a mobile-first shelter finder app with 15,266 mapped locations across Israel, live on both App Store and Google Play",
+          "Built the entire app using Claude Code with structured CLAUDE.md context files \u2014 managing prompts, context, and iterating on features through AI-assisted development",
+          "Implemented 5-language support with full RTL (Hebrew, Arabic), Google + Apple OAuth, and community shelter verification",
+          "Built a Python data pipeline that extracted shelter data from GovMap via 6,500+ API queries across 14+ municipal layers",
+        ]},
+        { company: "i24NEWS", location: "Tel-Aviv", title: "Technical Manager & Control Room Manager", dates: "2021 \u2013 Present", bullets: [
+          "Went from operational management to building all internal tools \u2014 designing, prototyping, and shipping production applications as the sole developer",
+          "Built all apps using AI-assisted development with Claude Code, using structured CLAUDE.md context files to stay consistent across 200+ components",
+          "Built i24 Shifts \u2014 a bilingual shift management platform for 100+ employees with role-based access, shift auctions, vacation management, cost analytics, and 76 Playwright E2E tests",
+          "Developed Studio Countdown \u2014 a real-time broadcast timer with multi-display SSE sync, Stream Deck integration, and HTTP API for automation",
+          "Created i24 Daily Pics \u2014 an internal branded image generator with multi-layer canvas compositing",
+          "Built i24 Studio Schedule, i24 Maps, and i24 MCR Extension \u2014 solving production bottlenecks with custom web apps",
+          "Built a WhatsApp-to-Telegram bridge that automatically downloads media from journalists\u2019 chats, cutting on-air turnaround from 15 minutes (manual) to under 1 minute",
+        ]},
+        { company: "i24NEWS", location: "Tel-Aviv", title: "Director", dates: "2019 \u2013 2021", bullets: [
+          "Executed live technical direction for high-pressure news broadcasts",
+          "Optimized Vision Mixer workflow by pre-programming effects, reducing setup time for breaking news",
+        ]},
+        { company: "i24NEWS", location: "Tel-Aviv", title: "Assistant Director", dates: "2019 \u2013 2021", bullets: [
+          "Managed live rundown timing and coordination between news desk and technical crew",
+          "Optimized Dalet Galaxy rundown workflow for precise editorial-technical synchronization",
+        ]},
+        { company: "i24NEWS", location: "Tel-Aviv", title: "CG Operator", dates: "2017 \u2013 2019", bullets: [
+          "Operated Viz Trio and Viz Director for live on-air graphics; troubleshot template issues in real-time",
+          "Managed real-time graphics workflow during breaking news coverage",
+        ]},
+      ],
+      projects: [],
+      education: [],
+      military: "Givati Brigade | Combat Soldier | 2010 \u2013 2012. Reserve service at 8149 Brigade since 2012.",
+    };
+
+    // ─── STATE ───────────────────────────────────────────────────
+    let profiles = {};
+    let currentProfile = "base";
+
+    function loadState() {
+      const saved = localStorage.getItem("resume-profiles");
+      if (saved) {
+        profiles = JSON.parse(saved);
+      } else {
+        // Seed with fullpath
+        profiles = {
+          fullpath: {
+            _label: "Fullpath (Prompt Engineer)",
+            title: "AI WORKFLOW SPECIALIST & FULL-STACK DEVELOPER",
+            summary: "Self-taught developer with hands-on experience building LLM-powered workflows in production. Shipped 8 applications \u2014 including a mobile app on both App Stores \u2014 using AI-assisted development with Claude Code, structured context management, and prompt chaining. 9+ years of operational work at i24NEWS gave me strong product sense and user empathy. Native-level English and French, fluent Hebrew.",
+            skills: [
+              { label: "AI & Prompt Engineering", value: "Claude Code (structured CLAUDE.md context files, prompt chaining, agent design), LLM-assisted development workflows, RAG patterns, few-shot prompting, output quality review" },
+              { label: "Workflow Automation", value: "AI-driven development pipelines, structured context management across 200+ components, automated data extraction pipelines, CI/CD workflows" },
+              { label: "Frontend", value: "React 19, React Native, TypeScript, Next.js 15, Tailwind CSS, HTML/CSS" },
+              { label: "Backend & Data", value: "Node.js, Supabase (PostgreSQL, PostGIS, Auth, RLS), REST APIs, Python" },
+              { label: "Mobile", value: "Expo (EAS builds), iOS & Android deployment, PWA" },
+              { label: "Testing & QA", value: "Playwright E2E (76+ tests), Vercel, GitHub, PM2" },
+              { label: "Languages", value: "French (Native), English (Fluent), Hebrew (Fluent)" },
+            ],
+          }
+        };
+        saveState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem("resume-profiles", JSON.stringify(profiles));
+    }
+
+    // ─── HELPERS ─────────────────────────────────────────────────
+    function deepClone(o) { return JSON.parse(JSON.stringify(o)); }
+
+    function deepMerge(base, overrides) {
+      const result = { ...base };
+      for (const key of Object.keys(overrides)) {
+        if (key === "_label") continue;
+        if (Array.isArray(overrides[key])) {
+          result[key] = overrides[key];
+        } else if (overrides[key] && typeof overrides[key] === "object" && !Array.isArray(base[key])) {
+          result[key] = deepMerge(base[key] || {}, overrides[key]);
+        } else {
+          result[key] = overrides[key];
+        }
+      }
+      return result;
+    }
+
+    function getResolvedData() {
+      if (currentProfile === "base") return deepClone(BASE);
+      return deepMerge(deepClone(BASE), profiles[currentProfile] || {});
+    }
+
+    function getCurrentEditable() {
+      if (currentProfile === "base") return BASE;
+      // For profiles, return the merged view but track overrides
+      return getResolvedData();
+    }
+
+    function isOverridden(field) {
+      if (currentProfile === "base") return false;
+      const p = profiles[currentProfile];
+      return p && p[field] !== undefined;
+    }
+
+    function esc(s) {
+      const d = document.createElement("div");
+      d.textContent = s || "";
+      return d.innerHTML;
+    }
+
+    // ─── PROFILE SELECT ──────────────────────────────────────────
+    function rebuildProfileSelect() {
+      const sel = document.getElementById("profileSelect");
+      sel.innerHTML = '<option value="base">Base Resume</option>';
+      for (const [key, p] of Object.entries(profiles)) {
+        const label = p._label || key;
+        sel.innerHTML += `<option value="${esc(key)}">${esc(label)}</option>`;
+      }
+      sel.value = currentProfile;
+      document.getElementById("deleteProfileBtn").style.display = currentProfile === "base" ? "none" : "";
+    }
+
+    function switchProfile(name) {
+      currentProfile = name;
+      document.getElementById("deleteProfileBtn").style.display = name === "base" ? "none" : "";
+      buildEditor();
+      renderPreview();
+    }
+
+    // ─── EDITOR ──────────────────────────────────────────────────
+    function buildEditor() {
+      const data = getResolvedData();
+      const isBase = currentProfile === "base";
+      const profile = !isBase ? (profiles[currentProfile] || {}) : null;
+      let html = "";
+
+      // Title
+      html += fieldBlock("Title (subtitle under name)", "title", data.title,
+        !isBase && profile.title !== undefined, "text");
+
+      // Summary
+      html += fieldBlock("Summary", "summary", data.summary,
+        !isBase && profile.summary !== undefined, "textarea");
+
+      // Skills
+      html += `<div class="section-label">Technical Skills</div>`;
+      const skills = data.skills;
+      skills.forEach((s, i) => {
+        html += `<div class="skill-row">
+          <input value="${esc(s.label)}" onchange="updateSkill(${i}, 'label', this.value)" placeholder="Label">
+          <input value="${esc(s.value)}" onchange="updateSkill(${i}, 'value', this.value)" placeholder="Value">
+          <button class="btn btn-danger btn-sm" onclick="removeSkill(${i})">x</button>
+        </div>`;
+      });
+      html += `<button class="btn btn-add btn-sm" onclick="addSkill()">+ Add Skill</button>`;
+
+      // Experience
+      html += `<div class="section-label">Professional Experience</div>`;
+      data.experience.forEach((job, i) => {
+        html += `<div class="exp-card">
+          <div class="exp-card-header">
+            <span class="exp-card-title">${esc(job.company)} — ${esc(job.title)}</span>
+            <button class="btn btn-danger btn-sm" onclick="removeJob(${i})">Remove</button>
+          </div>
+          <div class="exp-card-grid">
+            <input value="${esc(job.company)}" onchange="updateJob(${i}, 'company', this.value)" placeholder="Company">
+            <input value="${esc(job.location)}" onchange="updateJob(${i}, 'location', this.value)" placeholder="Location">
+            <input value="${esc(job.title)}" onchange="updateJob(${i}, 'title', this.value)" placeholder="Title">
+            <input value="${esc(job.dates)}" onchange="updateJob(${i}, 'dates', this.value)" placeholder="Dates">
+          </div>`;
+        job.bullets.forEach((b, j) => {
+          html += `<div class="exp-bullet-row">
+            <textarea onchange="updateBullet(${i}, ${j}, this.value)">${esc(b)}</textarea>
+            <button class="btn btn-danger btn-sm" onclick="removeBullet(${i}, ${j})">x</button>
+          </div>`;
+        });
+        html += `<button class="btn btn-add btn-sm" onclick="addBullet(${i})" style="margin-top:4px">+ Bullet</button>`;
+        html += `</div>`;
+      });
+      html += `<button class="btn btn-add btn-sm" onclick="addJob()">+ Add Position</button>`;
+
+      // Military
+      html += `<div class="section-label">Military Service</div>`;
+      html += fieldBlock("Military", "military", data.military,
+        !isBase && profile.military !== undefined, "text");
+
+      document.getElementById("editor").innerHTML = html;
+    }
+
+    function fieldBlock(label, field, value, overridden, type) {
+      const cls = overridden ? "field field-override" : "field";
+      const badge = overridden ? `<span class="override-badge">OVERRIDE</span><span class="clear-override" onclick="clearOverride('${field}')">(reset)</span>` : "";
+      if (type === "textarea") {
+        return `<div class="${cls}">
+          <div class="field-label">${label} ${badge}</div>
+          <textarea oninput="updateField('${field}', this.value)">${esc(value)}</textarea>
+        </div>`;
+      }
+      return `<div class="${cls}">
+        <div class="field-label">${label} ${badge}</div>
+        <input type="text" value="${esc(value)}" oninput="updateField('${field}', this.value)">
+      </div>`;
+    }
+
+    // ─── UPDATE HANDLERS ─────────────────────────────────────────
+    function updateField(field, value) {
+      if (currentProfile === "base") {
+        BASE[field] = value;
+      } else {
+        if (!profiles[currentProfile]) profiles[currentProfile] = {};
+        profiles[currentProfile][field] = value;
+        saveState();
+      }
+      renderPreview();
+    }
+
+    function clearOverride(field) {
+      if (currentProfile !== "base" && profiles[currentProfile]) {
+        delete profiles[currentProfile][field];
+        saveState();
+        buildEditor();
+        renderPreview();
+      }
+    }
+
+    function getEditableSkills() {
+      if (currentProfile === "base") return BASE.skills;
+      if (!profiles[currentProfile]) profiles[currentProfile] = {};
+      if (!profiles[currentProfile].skills) {
+        profiles[currentProfile].skills = deepClone(getResolvedData().skills);
+      }
+      return profiles[currentProfile].skills;
+    }
+
+    function updateSkill(i, prop, value) {
+      const skills = getEditableSkills();
+      skills[i][prop] = value;
+      saveState();
+      renderPreview();
+    }
+
+    function addSkill() {
+      const skills = getEditableSkills();
+      skills.push({ label: "New Skill", value: "" });
+      saveState();
+      buildEditor();
+      renderPreview();
+    }
+
+    function removeSkill(i) {
+      const skills = getEditableSkills();
+      skills.splice(i, 1);
+      saveState();
+      buildEditor();
+      renderPreview();
+    }
+
+    function getEditableExperience() {
+      if (currentProfile === "base") return BASE.experience;
+      if (!profiles[currentProfile]) profiles[currentProfile] = {};
+      if (!profiles[currentProfile].experience) {
+        profiles[currentProfile].experience = deepClone(getResolvedData().experience);
+      }
+      return profiles[currentProfile].experience;
+    }
+
+    function updateJob(i, prop, value) {
+      const exp = getEditableExperience();
+      exp[i][prop] = value;
+      saveState();
+      renderPreview();
+    }
+
+    function removeJob(i) {
+      const exp = getEditableExperience();
+      exp.splice(i, 1);
+      saveState();
+      buildEditor();
+      renderPreview();
+    }
+
+    function addJob() {
+      const exp = getEditableExperience();
+      exp.push({ company: "", location: "", title: "", dates: "", bullets: [""] });
+      saveState();
+      buildEditor();
+      renderPreview();
+    }
+
+    function updateBullet(jobIdx, bulletIdx, value) {
+      const exp = getEditableExperience();
+      exp[jobIdx].bullets[bulletIdx] = value;
+      saveState();
+      renderPreview();
+    }
+
+    function removeBullet(jobIdx, bulletIdx) {
+      const exp = getEditableExperience();
+      exp[jobIdx].bullets.splice(bulletIdx, 1);
+      saveState();
+      buildEditor();
+      renderPreview();
+    }
+
+    function addBullet(jobIdx) {
+      const exp = getEditableExperience();
+      exp[jobIdx].bullets.push("");
+      saveState();
+      buildEditor();
+      renderPreview();
+    }
+
+    // ─── PREVIEW ─────────────────────────────────────────────────
+    function renderPreview() {
+      const data = getResolvedData();
+      const c = data.contact;
+      let html = "";
+
+      html += `<div class="resume-name">${esc(data.name)}</div>`;
+      html += `<div class="resume-title">${esc(data.title)}</div>`;
+
+      html += `<div class="contact-line">
+        ${esc(c.phone)}<span class="sep">|</span>
+        <a href="mailto:${esc(c.email)}">${esc(c.email)}</a><span class="sep">|</span>
+        ${esc(c.location)}
+      </div>`;
+      html += `<div class="contact-line">
+        <a href="${esc(c.website.link)}">${esc(c.website.text)}</a><span class="sep">|</span>
+        <a href="${esc(c.linkedin.link)}">${esc(c.linkedin.text)}</a><span class="sep">|</span>
+        <a href="${esc(c.github.link)}">${esc(c.github.text)}</a>
+      </div>`;
+
+      html += `<div class="section-heading">Professional Summary</div>`;
+      html += `<div class="summary">${esc(data.summary)}</div>`;
+
+      html += `<div class="section-heading">Technical Skills</div>`;
+      for (const s of data.skills) {
+        html += `<div class="skill-line"><span class="skill-label-r">${esc(s.label)}:</span> <span class="skill-value-r">${esc(s.value)}</span></div>`;
+      }
+
+      html += `<div class="section-heading">Professional Experience</div>`;
+      for (const job of data.experience) {
+        html += `<div class="job-header-r">
+          <div class="left">
+            <span class="job-company-r">${esc(job.company)}</span>
+            <span class="job-location-r">&nbsp;| ${esc(job.location)} |&nbsp;</span>
+            <span class="job-title-r">${esc(job.title)}</span>
+          </div>
+          <span class="job-dates-r">${esc(job.dates)}</span>
+        </div>`;
+        html += `<ul class="bullet-list">`;
+        for (const b of job.bullets) {
+          if (b) html += `<li>${esc(b)}</li>`;
+        }
+        html += `</ul>`;
+      }
+
+      if (data.projects && data.projects.length > 0) {
+        html += `<div class="section-heading">Technical Projects</div><ul class="bullet-list">`;
+        for (const p of data.projects) html += `<li><strong>${esc(p.name)}:</strong> ${esc(p.desc)}</li>`;
+        html += `</ul>`;
+      }
+
+      if (data.education && data.education.length > 0) {
+        html += `<div class="section-heading">Education</div>`;
+        for (const edu of data.education) {
+          html += `<div class="job-header-r"><div class="left"><span class="job-company-r">${esc(edu.degree)}</span><span class="job-location-r">&nbsp;| ${esc(edu.school)}</span></div><span class="job-dates-r">${esc(edu.dates)}</span></div>`;
+        }
+      }
+
+      if (data.military) {
+        html += `<div class="section-heading">Military Service</div>`;
+        const milParts = data.military.split(" | ");
+        html += `<div class="military"><span class="military-name">${esc(milParts[0])}</span><span class="military-detail"> | ${esc(milParts.slice(1).join(" | "))}</span></div>`;
+      }
+
+      document.getElementById("resume").innerHTML = html;
+    }
+
+    // ─── PROFILE MANAGEMENT ──────────────────────────────────────
+    function showNewProfileModal() {
+      document.getElementById("newProfileName").value = "";
+      document.getElementById("newProfileLabel").value = "";
+      document.getElementById("newProfileModal").classList.add("active");
+      document.getElementById("newProfileName").focus();
+    }
+
+    function createProfile() {
+      const name = document.getElementById("newProfileName").value.trim().toLowerCase().replace(/\s+/g, "-");
+      const label = document.getElementById("newProfileLabel").value.trim();
+      if (!name) return;
+      profiles[name] = { _label: label || name };
+      saveState();
+      currentProfile = name;
+      rebuildProfileSelect();
+      switchProfile(name);
+      closeModal("newProfileModal");
+    }
+
+    function deleteProfile() {
+      if (currentProfile === "base") return;
+      if (!confirm(`Delete profile "${currentProfile}"?`)) return;
+      delete profiles[currentProfile];
+      saveState();
+      currentProfile = "base";
+      rebuildProfileSelect();
+      switchProfile("base");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("active");
+    }
+
+    // ─── EXPORT ──────────────────────────────────────────────────
+    function showExport() {
+      if (currentProfile === "base") {
+        alert("Switch to a profile to export. The base resume is already in generate-resume.mjs.");
+        return;
+      }
+      const p = deepClone(profiles[currentProfile]);
+      delete p._label;
+
+      // Remove fields that match base (only export overrides)
+      const clean = {};
+      for (const [key, val] of Object.entries(p)) {
+        if (JSON.stringify(val) !== JSON.stringify(BASE[key])) {
+          clean[key] = val;
+        }
+      }
+
+      let code = `// ${profiles[currentProfile]._label || currentProfile}\n`;
+      code += `// Only override what differs from the base resume.\n\n`;
+      code += `export default ${JSON.stringify(clean, null, 2)};\n`;
+
+      document.getElementById("exportCode").textContent = code;
+      document.getElementById("exportModal").classList.add("active");
+    }
+
+    function copyExport() {
+      const text = document.getElementById("exportCode").textContent;
+      navigator.clipboard.writeText(text);
+      const btn = event.target;
+      btn.textContent = "Copied!";
+      setTimeout(() => btn.textContent = "Copy", 1500);
+    }
+
+    // ─── KEYBOARD ────────────────────────────────────────────────
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal-bg.active").forEach(m => m.classList.remove("active"));
+      }
+    });
+
+    // ─── INIT ────────────────────────────────────────────────────
+    loadState();
+    rebuildProfileSelect();
+    buildEditor();
+    renderPreview();
+  </script>
+</body>
+</html>
