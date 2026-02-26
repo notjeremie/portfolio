@@ -50,9 +50,9 @@ const baseData = {
       dates: "2024 – Present",
       bullets: [
         "Built and shipped a mobile-first shelter finder app with 15,266 mapped locations across Israel, live on both App Store and Google Play",
-        "Built the entire app using Claude Code with structured CLAUDE.md context files — managing prompts, context, and iterating on features through AI-assisted development",
+        "Developed the entire app using Claude Code with structured CLAUDE.md context files — managing prompts, context, and iterating on features through AI-assisted development",
         "Implemented 5-language support with full RTL (Hebrew, Arabic), Google + Apple OAuth, and community shelter verification",
-        "Built a Python data pipeline that extracted shelter data from GovMap via 6,500+ API queries across 14+ municipal layers",
+        "Wrote a Python data pipeline that extracted shelter data from GovMap via 6,500+ API queries across 14+ municipal layers",
       ],
     },
     {
@@ -66,8 +66,8 @@ const baseData = {
         "Built i24 Shifts — a bilingual shift management platform for 100+ employees with role-based access, shift auctions, vacation management, cost analytics, and 76 Playwright E2E tests",
         "Developed Studio Countdown — a real-time broadcast timer with multi-display SSE sync, Stream Deck integration, and HTTP API for automation",
         "Created i24 Daily Pics — an internal branded image generator with multi-layer canvas compositing",
-        "Built i24 Studio Schedule, i24 Maps, and i24 MCR Extension — solving production bottlenecks with custom web apps",
-        "Built a WhatsApp-to-Telegram bridge that automatically downloads media from journalists' chats, cutting on-air turnaround from 15 minutes (manual) to under 1 minute",
+        "Shipped i24 Studio Schedule, i24 Maps, and i24 MCR Extension — solving production bottlenecks with custom web apps",
+        "Created a WhatsApp-to-Telegram bridge that automatically downloads media from journalists' chats, cutting on-air turnaround from 15 minutes (manual) to under 1 minute",
       ],
     },
     {
@@ -317,18 +317,108 @@ function buildDocument(data) {
   });
 }
 
+// ─── BUILD COVER LETTER FROM DATA ────────────────────────────────────
+function buildCoverLetter(data, coverData) {
+  const c = data.contact;
+  const children = [];
+
+  // Header — name + contact
+  children.push(new Paragraph({
+    spacing: { after: 40 },
+    children: [new TextRun({ text: data.name, bold: true, size: SIZE_NAME, font: FONT })]
+  }));
+  children.push(new Paragraph({
+    spacing: { after: 20 },
+    children: [
+      new TextRun({ text: `${c.phone}  |  ${c.email}  |  ${c.location}`, size: SIZE_SMALL, font: FONT, color: COLOR_GRAY })
+    ]
+  }));
+  children.push(new Paragraph({
+    spacing: { after: 200 },
+    children: [
+      ...[c.website, c.linkedin, c.github].flatMap((item, i) => {
+        const parts = [];
+        if (i > 0) parts.push(new TextRun({ text: "  |  ", size: SIZE_SMALL, font: FONT, color: COLOR_GRAY }));
+        parts.push(new ExternalHyperlink({
+          children: [new TextRun({ text: item.text, style: "Hyperlink", size: SIZE_SMALL, font: FONT })],
+          link: item.link
+        }));
+        return parts;
+      })
+    ]
+  }));
+
+  // Date
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  children.push(new Paragraph({
+    spacing: { after: 200 },
+    children: [new TextRun({ text: dateStr, size: SIZE_BODY, font: FONT, color: COLOR_GRAY })]
+  }));
+
+  // Recipient
+  if (coverData.recipient) {
+    for (const line of coverData.recipient.split('\n')) {
+      children.push(new Paragraph({
+        spacing: { after: 20 },
+        children: [new TextRun({ text: line, size: SIZE_BODY, font: FONT })]
+      }));
+    }
+    children.push(new Paragraph({ spacing: { after: 200 }, children: [] }));
+  }
+
+  // Subject
+  if (coverData.subject) {
+    children.push(new Paragraph({
+      spacing: { after: 200 },
+      children: [new TextRun({ text: coverData.subject, bold: true, size: SIZE_BODY, font: FONT })]
+    }));
+  }
+
+  // Body paragraphs
+  for (const para of coverData.paragraphs) {
+    children.push(new Paragraph({
+      spacing: { after: 160 },
+      children: [new TextRun({ text: para, size: SIZE_BODY, font: FONT })]
+    }));
+  }
+
+  // Sign-off
+  children.push(new Paragraph({
+    spacing: { before: 200, after: 40 },
+    children: [new TextRun({ text: coverData.signoff || "Best regards,", size: SIZE_BODY, font: FONT })]
+  }));
+  children.push(new Paragraph({
+    children: [new TextRun({ text: "Jeremie Quenet", bold: true, size: SIZE_BODY, font: FONT })]
+  }));
+
+  return new Document({
+    styles: { default: { document: { run: { font: FONT, size: SIZE_BODY } } } },
+    sections: [{
+      properties: {
+        page: { margin: { top: 900, right: 900, bottom: 900, left: 900 } }
+      },
+      children
+    }]
+  });
+}
+
 // ─── CLI & PROFILE LOADING ───────────────────────────────────────────
 const args = process.argv.slice(2);
 let profileName = null;
+let generateCover = false;
 
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--profile' && args[i + 1]) {
     profileName = args[i + 1];
-    break;
+  }
+  if (args[i] === '--cover') {
+    generateCover = true;
   }
 }
 
 let data = baseData;
+let profileOverrides = {};
 
 if (profileName) {
   const profilePath = path.join(__dirname, 'profiles', `${profileName}.mjs`);
@@ -337,15 +427,29 @@ if (profileName) {
     process.exit(1);
   }
   const profileModule = await import(profilePath);
-  const overrides = profileModule.default;
-  data = deepMerge(baseData, overrides);
+  profileOverrides = profileModule.default;
+  data = deepMerge(baseData, profileOverrides);
   console.log(`Loaded profile: ${profileName}`);
 }
 
+// Generate resume
 const doc = buildDocument(data);
 const buffer = await Packer.toBuffer(doc);
-
 const outputName = profileName ? `resume-${profileName}.docx` : 'resume.docx';
 const outputPath = path.join(__dirname, outputName);
 fs.writeFileSync(outputPath, buffer);
 console.log(`Resume saved to resume/${outputName}`);
+
+// Generate cover letter if requested
+if (generateCover) {
+  if (!profileOverrides.coverLetter) {
+    console.error('No coverLetter data in profile. Add a coverLetter object to the profile .mjs file.');
+    process.exit(1);
+  }
+  const coverDoc = buildCoverLetter(data, profileOverrides.coverLetter);
+  const coverBuffer = await Packer.toBuffer(coverDoc);
+  const coverName = `cover-${profileName}.docx`;
+  const coverPath = path.join(__dirname, coverName);
+  fs.writeFileSync(coverPath, coverBuffer);
+  console.log(`Cover letter saved to resume/${coverName}`);
+}
