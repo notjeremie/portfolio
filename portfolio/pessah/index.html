@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Invitation Pessah 5785</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #F5EFE6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── INTRO SCREEN ── */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: #2E1A0E;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      animation: introPause 2.6s forwards;
+    }
+    @keyframes introPause {
+      0%   { opacity: 1; }
+      75%  { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; }
+    }
+    #intro svg { animation: glassReveal 1.4s ease forwards; }
+    @keyframes glassReveal {
+      from { opacity: 0; transform: translateY(30px) scale(0.85); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    #intro .intro-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(245,239,230,0.45);
+      letter-spacing: 0.25em;
+      margin-top: 1.5rem;
+      animation: fadeIn 1s .6s ease both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* Wine fill animation in intro */
+    #wine-fill {
+      clip-path: inset(100% 0 0 0);
+      animation: fillUp 1s .3s ease forwards;
+    }
+    @keyframes fillUp {
+      from { clip-path: inset(100% 0 0 0); }
+      to   { clip-path: inset(0% 0 0 0); }
+    }
+
+    /* ── CURTAIN ── */
+    #curtain-left, #curtain-right {
+      position: fixed;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: #F5EFE6;
+      z-index: 99;
+      animation: curtainOpen 0.9s 2.4s cubic-bezier(.77,0,.18,1) forwards;
+    }
+    #curtain-left  { left: 0;  transform-origin: left; }
+    #curtain-right { right: 0; transform-origin: right; }
+    @keyframes curtainOpen {
+      from { transform: scaleX(1); }
+      to   { transform: scaleX(0); }
+    }
+
+    /* ── CARD CONTENT ── */
+    .card {
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+      opacity: 0;
+      animation: cardAppear .8s 3.2s ease forwards;
+    }
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .content { position: relative; z-index: 1; }
+
+    .s1 { opacity:0; animation: lineUp .7s 3.3s ease forwards; }
+    .s2 { opacity:0; animation: lineUp .7s 3.45s ease forwards; }
+    .s3 { opacity:0; animation: lineUp .7s 3.6s ease forwards; }
+    .s4 { opacity:0; animation: lineUp .7s 3.75s ease forwards; }
+    .s5 { opacity:0; animation: lineUp .7s 3.9s ease forwards; }
+    .s6 { opacity:0; animation: lineUp .7s 4.05s ease forwards; }
+    @keyframes lineUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── LAYOUT ── */
+    .label-row {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem;
+    }
+    .label-row .line { height: 1px; flex: 1; background: rgba(196,113,74,0.25); }
+    .label-row span {
+      font-size: 0.6rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: #C4714A;
+    }
+    .year {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5.5rem; font-weight: 300;
+      color: rgba(196,113,74,0.12);
+      line-height: 1; margin-bottom: -2.5rem;
+      letter-spacing: -2px; user-select: none;
+    }
+    .title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.8rem; font-weight: 300;
+      color: #2E1A0E; line-height: 1.05;
+      margin-bottom: 0.2rem; letter-spacing: -1px;
+    }
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.1rem; font-weight: 300;
+      color: #C4714A; margin-bottom: 2.8rem; letter-spacing: 0.05em;
+    }
+    .divider {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2.8rem;
+    }
+    .divider .short { height: 1px; width: 40px; background: #C4714A; }
+    .divider .dot { width: 4px; height: 4px; border-radius: 50%; background: #C4714A; }
+    .divider .long { height: 1px; flex: 1; background: rgba(196,113,74,0.2); }
+    .intro-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 300;
+      color: #2E1A0E; line-height: 1.8; margin-bottom: 2.8rem;
+    }
+    .intro-text .ps {
+      font-style: italic;
+      color: rgba(46,26,14,0.6); font-size: 0.9rem;
+    }
+    .details { background: #2E1A0E; padding: 2rem; margin-bottom: 2.8rem; }
+    .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .detail-label {
+      font-size: 0.58rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: #C4714A; margin-bottom: 0.5rem;
+    }
+    .detail-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 300; color: #F5EFE6;
+    }
+    .detail-value .muted { color: rgba(245,239,230,0.55); font-size: 0.95rem; }
+    .detail-full { grid-column: 1 / -1; }
+    .detail-separator { height: 1px; background: rgba(196,113,74,0.15); margin-bottom: 1.5rem; }
+    .footer { display: flex; align-items: center; justify-content: space-between; }
+    .chez-label {
+      font-size: 0.58rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: #C4714A; margin-bottom: 0.5rem;
+    }
+    .chez-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; color: #2E1A0E; font-style: italic;
+    }
+    .blessing {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 0.85rem;
+      color: rgba(46,26,14,0.45);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Intro screen -->
+  <div id="intro">
+    <svg width="80" height="140" viewBox="0 0 340 500">
+      <path d="M100,40 L240,40 C240,40 265,120 250,180 C238,225 205,255 170,260 C135,255 102,225 90,180 C75,120 100,40 100,40 Z" fill="none" stroke="rgba(245,239,230,0.3)" stroke-width="6"/>
+      <g id="wine-fill">
+        <path d="M95,140 C97,130 100,120 100,40 L240,40 C240,40 243,130 245,140 C220,155 195,162 170,162 C145,162 120,155 95,140 Z" fill="#C4714A" opacity="0.85"/>
+      </g>
+      <rect x="158" y="260" width="24" height="140" rx="4" fill="rgba(245,239,230,0.3)"/>
+      <path d="M90,400 C90,390 125,382 170,382 C215,382 250,390 250,400 C250,412 215,420 170,420 C125,420 90,412 90,400 Z" fill="rgba(245,239,230,0.3)"/>
+    </svg>
+    <div class="intro-label">Pessah 5785</div>
+  </div>
+
+  <!-- Curtains -->
+  <div id="curtain-left"></div>
+  <div id="curtain-right"></div>
+
+  <!-- Card -->
+  <div class="card">
+
+    <svg class="watermark" width="340" height="500" viewBox="0 0 340 500">
+      <path d="M100,40 L240,40 C240,40 265,120 250,180 C238,225 205,255 170,260 C135,255 102,225 90,180 C75,120 100,40 100,40 Z" fill="#C4714A"/>
+      <path d="M95,140 C97,130 100,120 100,40 L240,40 C240,40 243,130 245,140 C220,155 195,162 170,162 C145,162 120,155 95,140 Z" fill="#C4714A" opacity="0.6"/>
+      <rect x="158" y="260" width="24" height="140" rx="4" fill="#C4714A"/>
+      <path d="M90,400 C90,390 125,382 170,382 C215,382 250,390 250,400 C250,412 215,420 170,420 C125,420 90,412 90,400 Z" fill="#C4714A"/>
+      <path d="M120,60 C118,90 116,130 118,160" stroke="#F5EFE6" stroke-width="6" fill="none" opacity="0.3" stroke-linecap="round"/>
+    </svg>
+
+    <div class="content">
+
+      <div class="label-row s1">
+        <div class="line"></div>
+        <span>Invitation</span>
+        <div class="line"></div>
+      </div>
+
+      <div class="year s2">5785</div>
+      <div class="title s2">Pessah</div>
+      <div class="subtitle s3">Séder en famille</div>
+
+      <div class="divider s3">
+        <div class="short"></div>
+        <div class="dot"></div>
+        <div class="long"></div>
+      </div>
+
+      <div class="intro-text s4">
+        C'est avec joie que nous vous invitons<br>
+        à partager notre table pour le Séder.<br>
+        <span class="ps">P.S : il y aura de la viande.</span>
+      </div>
+
+      <div class="details s5">
+        <div class="details-grid">
+          <div>
+            <div class="detail-label">Date</div>
+            <div class="detail-value">1er avril 2025</div>
+          </div>
+          <div>
+            <div class="detail-label">Heure</div>
+            <div class="detail-value">18:00</div>
+          </div>
+          <div class="detail-full">
+            <div class="detail-separator"></div>
+            <div class="detail-label">Adresse</div>
+            <div class="detail-value">Mishgav Am 14<br><span class="muted">Tel Aviv</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer s6">
+        <div>
+          <div class="chez-label">Chez</div>
+          <div class="chez-name">Eve, Jérémie &amp; Théodore</div>
+        </div>
+        <div class="blessing">חַג שָׂמֵחַ</div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
