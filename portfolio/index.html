@@ -476,6 +476,19 @@
       color: var(--accent);
     }
 
+    .timeline-intro {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .timeline-project {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 18px 0 8px;
+    }
+
     /* ─── Code Preview ─── */
     .code-preview {
       background: var(--bg-card);
@@ -1250,6 +1263,11 @@
         </div>
       </div>
       <div class="carousel-track" id="carousel-projects">
+        <div class="carousel-card fade-up" data-project="nanoclaws">
+          <div class="carousel-card-image"><img src="img/nanoclaws-cover.png" alt="nanoclaws"></div>
+          <h3>nanoclaws</h3>
+          <div class="card-tech">Node, Docker, Claude, WhatsApp/Telegram</div>
+        </div>
         <div class="carousel-card fade-up" data-project="miklat">
           <div class="carousel-card-image"><img src="img/miklat-cover.png" alt="Miklat"></div>
           <h3>Miklat</h3>
@@ -1339,7 +1357,18 @@
       <div class="timeline-entry fade-up">
         <div class="timeline-date">2024 – Present</div>
         <div class="timeline-content">
-          <h3>Independent Developer — Miklat</h3>
+          <h3>Independent Developer</h3>
+          <p class="timeline-intro">Founder and sole developer — building and operating my own products end-to-end.</p>
+
+          <div class="timeline-project">nanoclaws — private AI assistants, as a service</div>
+          <ul>
+            <li>Built and operate a commercial service giving families and small businesses their own private AI assistant, living right in WhatsApp or Telegram</li>
+            <li>Designed a multi-tenant architecture — each client on an isolated server with their own Claude, handling calendar, email, reminders, documents and image generation in any language</li>
+            <li>Shipped it end-to-end solo: server provisioning, OAuth integrations (Google Workspace, Notion, Todoist), payments, and a bilingual marketing site</li>
+          </ul>
+          <div class="timeline-tech"><span>Technologies:</span> Node.js, Docker, Claude, OneCLI, WhatsApp/Telegram, Caddy, Hetzner</div>
+
+          <div class="timeline-project">Miklat — emergency shelter finder</div>
           <ul>
             <li>Built a mobile-first shelter finder app with 15,266 mapped locations across Israel, live on both App Store and Google Play</li>
             <li>Engineered a Python data pipeline that extracted shelter data from GovMap via 6,500+ API queries across 14+ municipal layers</li>
@@ -1599,6 +1628,15 @@
 
     // Project modal data
     const projects = {
+      'nanoclaws': {
+        title: 'nanoclaws',
+        status: 'Production',
+        desc: 'A commercial service that gives families and small businesses their own private AI assistant, living right in WhatsApp or Telegram. Each client runs on an isolated server with their own Claude — managing calendar, email, reminders, documents, image generation and more, in any language. Set up and operated end-to-end, billed as a one-time install plus subscription.',
+        tags: ['Node.js', 'Docker', 'Claude', 'OneCLI', 'WhatsApp/Telegram', 'Caddy'],
+        highlights: ['Private, isolated per client', 'Runs on the customer\'s own Claude', 'Any language · voice + text', 'Install + subscription SaaS'],
+        imgs: ['img/nanoclaws-1.png', 'img/nanoclaws-2.png', 'img/nanoclaws-3.png'],
+        link: 'https://claws.notjeremie.dev'
+      },
       'miklat': {
         title: 'Miklat',
         status: 'Production',
