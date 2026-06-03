@@ -1250,6 +1250,11 @@
         </div>
       </div>
       <div class="carousel-track" id="carousel-projects">
+        <div class="carousel-card fade-up" data-project="nanoclaws">
+          <div class="carousel-card-image"><img src="img/nanoclaws-cover.png" alt="nanoclaws"></div>
+          <h3>nanoclaws</h3>
+          <div class="card-tech">Node, Docker, Claude, WhatsApp/Telegram</div>
+        </div>
         <div class="carousel-card fade-up" data-project="miklat">
           <div class="carousel-card-image"><img src="img/miklat-cover.png" alt="Miklat"></div>
           <h3>Miklat</h3>
@@ -1599,6 +1604,15 @@
 
     // Project modal data
     const projects = {
+      'nanoclaws': {
+        title: 'nanoclaws',
+        status: 'Production',
+        desc: 'A commercial service that gives families and small businesses their own private AI assistant, living right in WhatsApp or Telegram. Each client runs on an isolated server with their own Claude — managing calendar, email, reminders, documents, image generation and more, in any language. Set up and operated end-to-end, billed as a one-time install plus subscription.',
+        tags: ['Node.js', 'Docker', 'Claude', 'OneCLI', 'WhatsApp/Telegram', 'Caddy'],
+        highlights: ['Private, isolated per client', 'Runs on the customer\'s own Claude', 'Any language · voice + text', 'Install + subscription SaaS'],
+        imgs: ['img/nanoclaws-1.png', 'img/nanoclaws-2.png', 'img/nanoclaws-3.png'],
+        link: 'https://claws.notjeremie.dev'
+      },
       'miklat': {
         title: 'Miklat',
         status: 'Production',
